@@ -1,0 +1,106 @@
+##CHAPTER 1: GEOMETRIES
+#euclidean space
+#standard inner product of the euclidean space
+def ipS(u,v):
+	ipS=u[0]*v[0]+u[1]*v[1]+u[2]*v[2]+u[3]*v[3]
+	return ipS 
+#lie sphere geometry
+#equivalent scalar product in lie sphere geometry
+def ipLie(u,v):
+	ipLie=-u[0]*v[0]+u[1]*v[1]+u[2]*v[2]-u[3]*v[3]
+	return ipLie 
+#check for Lie sphere
+def TL1(s):
+	if ipLie(s,s)==0:
+		return True
+	else:
+		return False
+#type of geometric object
+def TL2(s):
+	if TL1(s)==False:
+		return "non-valid"
+	else:
+		if s[0]=-s[1] AND s[2],s[3]=0:
+			return "point at infinity"
+		if s[0]=-s[1] AND s[2],s[3]!=0:
+			return "oriented plane"
+		else:
+			return "point or oriented sphere"
+#from points in Qn+1 to lie spheres in Rn 
+def LieData(x1,x2,v,x3):
+	if TL2=="point at infinity":
+		X=(1,-1,0,0)
+	if TL2=="oriented plane":
+		X=(x1/x3,x2/x3,v/ipS(v,v),1)
+	if TL2=="point or oriented sphere":
+		y1=(x1)/(x1+x2), y2=(x2)/(x1+x2), c=(v)/(x1+x2), r=(x3)/(x1+x2)	
+		X=((1+ipS(c,c)-r**2)/(2),(1-ipS(c,c)+r**2)/(2),c,r)
+	else:
+		X="non-valid"
+	return X
+#check oriented contact
+def orCon(k1,k2):
+	if ipLie(k1,k2)==0:
+		return True
+	else:
+		return False
+#moebius geometry
+#equivalent scalar product in moebius geometry
+def ipMob(u,v):
+	ipMob=-u[0]*v[0]+u[1]*v[1]+u[2]*v[2]+u[3]*v[3]
+	return ipMob
+#from points in moebius sphere to lie spheres
+def MobToLie(u):
+	Liesph1=(u[0],u[1],u[2],u[3],\sqrt(ipMob(u,u)))
+	Liesph2=(u[0],u[1],u[2],u[3],-\sqrt(ipMob(u,u)))
+	return Liesph1, Liesph2
+#check for Moebius sphere
+def TM1(s):
+	if ipMob(s,s)==0:
+		return True
+	else:
+		return False
+#type of geometric object
+def TM2(s):
+	if TM1(s)==False:
+		return "non-valid"
+	else:
+		if s[0]=-s[1] AND s[2]=0:
+			return "point at infinity"
+		if s[0]=-s[1] AND s[2]!=0:
+			return "nonoriented plane"
+		else:
+			return "point or nonoriented sphere"
+def MobData(x1,x2,v):
+	if TM2=="point at infinity":
+		X=(1,-1,0)
+	if TM2=="nonoriented plane":
+		X=(x1/ipS(v,v),x2/ipS(v,v),v/ipS(v,v))
+	if TM2=="point or nonoriented sphere":
+		X=((1+ipS(c,c)-r**2)/(2),(1-ipS(c,c)+r**2)/(2),c)
+	else:
+		X="non-valid"
+	return X
+#laguerre geometry
+#equivalent scalar product in laguerre geometry
+def ipLag(u,v):
+	ipLag=u[0]*v[0]+u[1]*v[1]+u[2]*v[2]-u[3]*v[3]
+	return ipLag
+#check for Laguerre sphere
+def TLG1(s):
+	if ipLag(s,s)==0:
+		return True
+	else:
+		return False
+#from points in Rn+1 to laguerre spheres in Rn
+def Lagsph(c,r):
+	return (c,r)
+#remove in laguerre geometry
+def remLag(u,v):
+	return u[0]-v[0],u[1]-v[1],u[2]-v[2]
+#tangential distance
+def tanDis(S1,S2):
+	return ipLag(remLag(S1,S2),remLag(S1,S2))
+#multiplication of a scalar and a vector
+def LagprodScal(t,u):
+	return t*u[0],t*u[1],t*u[2] 	
